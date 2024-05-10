@@ -36,6 +36,7 @@ import {
 import { NEYNAR_API_KEY, neynar } from "../lib/neynar.js";
 import { APP_FID, APP_SIGNER_KEY } from "../lib/env.js";
 import { checkSignerReqeust, generateSignerRequest } from "../lib/signer.js";
+import { kv } from "@vercel/kv";
 
 const { Box, Heading, VStack, Text, vars, Image } = createSystem();
 
@@ -171,7 +172,7 @@ app.frame("/create-linear-issue/settings", async (c) => {
         Connect Farcaster
       </Button>,
       <Button action="/create-linear-issue/settings">Refresh</Button>,
-      <Button action="/create-linear-issue/input">Exit</Button>,
+      <Button action="/create-linear-issue/input">Back</Button>,
     ],
   });
 });
@@ -334,6 +335,9 @@ app.frame("/create-linear-issue/finish", async (c) => {
     teamId,
   });
   const issue = await createResult.issue;
+
+  void kv.incr('created_issues:all');
+  void kv.incr(`created_issues:${userFid}`);
 
   if (!issue) {
     return c.error({ message: "Failed to create issue" });

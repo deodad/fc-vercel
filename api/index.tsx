@@ -257,9 +257,6 @@ app.frame("/create-linear-issue/connect-farcaster", async (c) => {
               <Text color="text200" size="18">
                 Scan the QR code 
               </Text>
-              <Text color="text200" size="18">
-                or hit Connect on mobile
-              </Text>
             </VStack>
           </Box>
           <Box paddingLeft="32">
@@ -273,7 +270,6 @@ app.frame("/create-linear-issue/connect-farcaster", async (c) => {
       </Box>
     ),
     intents: [
-      <Button.Link href={state.signerRequest?.deeplinkUrl ?? ''}>Connect</Button.Link>,
       <Button action="/create-linear-issue/connect-farcaster">Refresh</Button>,
     ],
   });
